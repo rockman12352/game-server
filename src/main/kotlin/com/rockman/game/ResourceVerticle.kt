@@ -8,7 +8,7 @@ class ResourceVerticle : AbstractVerticle() {
     println("exit db")
     var file = File("D:\\kotlin\\kk")
     file.createNewFile()
-    Main.dbClient.close()
+    Application.dbClient.close()
     super.stop()
   }
 }
