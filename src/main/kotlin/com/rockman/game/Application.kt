@@ -10,6 +10,7 @@ import io.vertx.core.json.JsonObject
 import io.vertx.core.logging.LoggerFactory
 import io.vertx.ext.web.Router
 import io.vertx.ext.web.handler.BodyHandler
+import io.vertx.ext.web.handler.TimeoutHandler
 import io.vertx.kotlin.core.json.get
 import io.vertx.mysqlclient.MySQLConnectOptions
 import io.vertx.mysqlclient.MySQLPool
@@ -57,6 +58,7 @@ object Application {
         var router = Router.router(vertx)
 
         //init global handler
+        router.route().handler(TimeoutHandler.create(10*1000))
         router.route().handler(BodyHandler.create())
         router.route().handler { rc ->
             val start = System.currentTimeMillis()
@@ -69,6 +71,9 @@ object Application {
         router.errorHandler(500) { rc ->
             rc.failure().printStackTrace()
             rc.response().end(Response.fail("internal error"))
+        }
+        router.errorHandler(503) { rc ->
+            rc.response().end(Response.fail("Service Unavailable"))
         }
 
         //init sub module
