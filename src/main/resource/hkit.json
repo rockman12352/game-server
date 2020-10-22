@@ -2,7 +2,7 @@
   "DB":{
     "username": "root",
     "password": "",
-    "host": "localhost",
-    "dbname": "game"
+    "host": "172.17.0.2",
+    "dbname": "testing"
   }
 }

@@ -40,8 +40,8 @@ object Application {
     private fun initDB(config: JsonObject) {
         val connectOptions = MySQLConnectOptions()
                 .setPort(3306)
-                .setHost("localhost")
-                .setDatabase("game")
+                .setHost(config.getJsonObject("DB")["host"])
+                .setDatabase(config.getJsonObject("DB")["dbname"])
                 .setUser(config.getJsonObject("DB")["username"])
                 .setPassword(config.getJsonObject("DB")["password"])
         dbClient = MySQLPool.pool(connectOptions, PoolOptions().setMaxSize(5))
