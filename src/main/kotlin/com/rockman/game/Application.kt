@@ -1,6 +1,8 @@
 package com.rockman.game
 
 import com.rockman.game.router.Account
+import com.rockman.game.util.QueryHandler
+import com.rockman.game.util.QueryHandlerFactory
 import io.vertx.config.ConfigRetriever
 import io.vertx.config.ConfigRetrieverOptions
 import io.vertx.config.ConfigStoreOptions
@@ -60,6 +62,7 @@ object Application {
         //init global handler
         router.route().handler(TimeoutHandler.create(10*1000))
         router.route().handler(BodyHandler.create())
+        router.route().handler { rc -> rc.put("queryFactory", QueryHandlerFactory(rc)); rc.next()}
         router.route().handler { rc ->
             val start = System.currentTimeMillis()
             logger.info("request on: ${rc.request().path()}")
