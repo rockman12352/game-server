@@ -49,7 +49,7 @@ object Application {
             if (sql.isBlank()) return
             dbClient.query(sql).execute { result ->
                 if (!result.succeeded()) {
-                    logger.error("SQL failed: $sql")
+                    logger.error("SQL failed: $sql", result.cause())
                 }
             }
         }
